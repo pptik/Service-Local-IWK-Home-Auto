@@ -56,8 +56,13 @@ func (c *ConsumerMessageBroker) startRoutingConsumer(ctx context.Context) []cont
 	for _, route := range []ConsumerMqtt{
 		{
 			config.MQTT_INSTANCE_NAME.GetValue(),
-			config.AKTUATOR_ROUTING_KEY.GetValue(),
+			config.MQTT_TOPIC_AKTUATOR.GetValue(),
 			c.consumerHandler.TestingConsumeAktuator,
+		},
+		{
+			config.MQTT_INSTANCE_NAME.GetValue(),
+			config.MQTT_TOPIC_SENSOR.GetValue(),
+			c.consumerHandler.ControlSensorHandler,
 		},
 	} {
 		go messagebroker.ConsumeMQTTTopic(

@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"go/hioto/pkg/dto"
 	"go/hioto/pkg/service"
+	"strings"
 
 	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2/log"
@@ -37,6 +38,15 @@ func (h *ConsumerHandler) ControlHandler(message []byte) {
 		log.Errorf("Validation error: %v", err)
 		return
 	}
+}
+
+func (h *ConsumerHandler) ControlSensorHandler(message []byte) {
+	messageString := string(message)
+
+	guid := strings.Split(messageString, "#")[0]
+	value := strings.Split(messageString, "#")[1]
+
+	h.controlDeviceService.ControlSensor(guid, value)
 }
 
 func (h *ConsumerHandler) TestingConsumeAktuator(message []byte) {
