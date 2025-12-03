@@ -31,7 +31,7 @@ func (s *ControlDeviceService) ControlDeviceLocal(controlDto *dto.ControlLocalDt
 
 	if err := s.db.Where("guid = ?", value[0]).First(&device).Error; err != nil {
 		log.Errorf("Device not found: %v 💥", err)
-		return fiber.NewError(fiber.StatusNotFound, "Device not found")
+		return fiber.NewError(fiber.StatusNotFound, "Device is not found")
 	}
 
 	if controlDto.Type == enum.SENSOR {
